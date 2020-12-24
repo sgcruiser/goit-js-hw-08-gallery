@@ -26,8 +26,8 @@ https://take.ms/ZvBD0E
 В файле gallery-items.js https://github.com/goitacademy/javascript-homework/blob/master/homework-08/src/gallery-items.js есть массив объектов содержащих информацию о изображениях: маленькое изображение, оригинальное и описание.
 Разметка элемента галереи
 Ссылка на оригинальное изображение должна храниться в data-атрибуте source на элементе img, и указываться в href ссылки (это необходимо для доступности).
-/**
-<li class="gallery__item">
+
+li class="gallery__item">
   <a
     class="gallery__link"
     href="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
@@ -39,8 +39,7 @@ https://take.ms/ZvBD0E
       alt="Tulips"
     />
   </a>
-</li>
-*/
+</li
 
 Дополнительно
 Следующий функционал не обязателен при сдаче задания, но будет хорошей практикой по работе с событиями.
