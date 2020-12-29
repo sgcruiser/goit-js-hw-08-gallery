@@ -36,7 +36,7 @@ refs.gallery.append(...galleryArray);
 
 refs.gallery.addEventListener('click', onImageClick);
 refs.gallery.addEventListener('click', isOpenModal);
-refs.divLightbox.addEventListener('click', isCloseModal);
+refs.closeButton.addEventListener('click', isCloseModal);
 
 function addedClass(elem, classElem) {
   elem.classList.add(classElem);
