@@ -7,11 +7,8 @@ const refs = {
   divLightbox: document.querySelector('.js-lightbox'),
   imageLigthbox: document.querySelector(`.lightbox__image`),
   closeButton: document.querySelector(`button[data-action="close-lightbox"]`),
+  lightboxOverlay: document.querySelector('.lightbox__overlay'),
 };
-
-// console.log(refs.gallery);
-// console.log(refs.divLightbox);
-// console.dir(refs.imageLigthbox);
 
 addedClass(refs.galleryLink, 'gallery__link');
 addedClass(refs.galleryImage, 'gallery__image');
@@ -28,7 +25,6 @@ const galleryArray = galleryItems.map(item => {
     'afterbegin',
     refs.galleryLink.cloneNode(true),
   );
-  // console.dir(refs.galleryImage);
   return refs.liTag;
 });
 
@@ -36,7 +32,8 @@ refs.gallery.append(...galleryArray);
 
 refs.gallery.addEventListener('click', onImageClick);
 refs.gallery.addEventListener('click', isOpenModal);
-refs.closeButton.addEventListener('click', isCloseModal);
+refs.closeButton.addEventListener('click', onCloseButtonClick);
+refs.lightboxOverlay.addEventListener('click', onBackDropClick);
 
 function addedClass(elem, classElem) {
   elem.classList.add(classElem);
@@ -53,15 +50,6 @@ function getFeaturesItemGallery(galleryItem) {
   refs.galleryImage.alt = `${galleryItem.description}`;
 }
 
-function isOpenModal(event) {
-  if (event.target.nodeName !== 'IMG') {
-    return;
-  }
-
-  addedClass(refs.divLightbox, 'is-open');
-  // console.log(event.target.nodeName);
-}
-
 function onImageClick(event) {
   event.preventDefault();
 
@@ -69,15 +57,80 @@ function onImageClick(event) {
     return;
   }
 
-  refs.imageLigthbox.src = event.target.dataset.source;
+  replacesSrcImageLigthbox(event.target.dataset.source);
 }
 
-function isCloseModal(event) {
-  if (event.target.nodeName !== 'BUTTON') {
+function replacesSrcImageLigthbox(currentLink) {
+  refs.imageLigthbox.src = currentLink;
+}
+
+function isOpenModal(event) {
+  if (event.target.nodeName !== 'IMG') {
     return;
   }
+
+  window.addEventListener('keydown', onPressEscape);
+  // window.addEventListener('keydown', onPressArrowLeft);
+  // window.addEventListener('keydown', onPressArrowRight);
+
+  addedClass(refs.divLightbox, 'is-open');
+  // console.log(event.target.nodeName);
+}
+
+function isCloseModal() {
+  window.removeEventListener('keydown', onPressEscape);
+  // window.removeEventListener('keydown', onPressArrowLeft);
+  // window.removeEventListener('keydown', onPressArrowRight);
 
   removedClass(refs.divLightbox, 'is-open');
   refs.imageLigthbox.src = '#';
   // console.log(event.target.nodeName);
 }
+
+function onCloseButtonClick(event) {
+  if (event.target.nodeName !== 'BUTTON') {
+    return;
+  }
+  isCloseModal();
+}
+
+function onBackDropClick(event) {
+  if (event.target === event.currentTarget) {
+    isCloseModal();
+  }
+}
+
+function onPressEscape(event) {
+  if (event.code === 'Escape') {
+    isCloseModal();
+    // console.log('Была нажата клавиша Escape');
+  }
+}
+
+// function onPressArrowLeft(event) {
+//   if (event.code === 'ArrowLeft') {
+//     replacesSrcImageLigthbox(
+//       event.target.parentNode.previousElementSibling.childNodes[0].firstChild
+//         .dataset.source,
+//     );
+
+//     console.dir(
+//       event.target.parentNode.previousElementSibling.childNodes[0].firstChild
+//         .dataset.source,
+//     );
+//   }
+// }
+
+// function onPressArrowRight(event) {
+//   if (event.code === 'ArrowRight') {
+//     replacesSrcImageLigthbox(
+//       event.target.parentNode.nextElementSibling.childNodes[0].firstChild
+//         .dataset.source,
+//     );
+
+//     console.dir(
+//       event.target.parentNode.nextElementSibling.childNodes[0].firstChild,
+//     );
+//     console.dir(event.target);
+//   }
+// }
